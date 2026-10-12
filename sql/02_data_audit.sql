@@ -128,7 +128,7 @@ FROM (
     GROUP BY adm.patient_id
     HAVING SUM(
         CASE
-            WHEN p.date_of_birth > a.admission_date THEN 1
+            WHEN pat.date_of_birth > adm.admission_date THEN 1
             ELSE 0
         END
     ) > 0
