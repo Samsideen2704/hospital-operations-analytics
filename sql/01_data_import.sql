@@ -1,9 +1,39 @@
-CREATE DATABASE hospital_operations_analysis;
+-- ============================================================
+-- Project: Hospital Operations & Resource Management Analytics
+-- Script: 01_data_import.sql
+--
+-- Purpose:
+--   Create the database and import seven tables from CSV files.
+--
+-- Requirements:
+--   - MySQL Server and MySQL Workbench
+--   - The project CSV files stored locally
+--   - LOCAL INFILE enabled for the server and client connection
+--
+-- Instructions:
+--   1. Replace YOUR_DATA_FOLDER in each import path with the
+--      location of your CSV files.
+--   2. Run this script against a fresh project database.
+--   3. Check the imported row counts before running the audit
+--      and data-cleaning scripts.
+--
+-- Note:
+--   This script imports seven tables, not all 19 project tables due to heavy size, 
+--   The remaining 12 tables were imported using the table import wizard.
+--   It is intended for a fresh database; existing tables may
+--   cause CREATE TABLE statements to fail.
+-- ============================================================
+
+
+
+
+CREATE DATABASE IF NOT EXISTS hospital_operations_analysis;
 
 USE hospital_operations_analysis;
+
 SHOW VARIABLES LIKE 'local_infile';
 
--- CREATE DATABASE TABLES (LARGE FILES)--
+-- CREATE DATABASE TABLES (LARGE FILES) --
 
 -- Patient table --
 CREATE TABLE patient (
@@ -18,7 +48,7 @@ CREATE TABLE patient (
 DESCRIBE patient ;
 
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/patient.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/patient.csv'
 INTO TABLE patient
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -51,7 +81,7 @@ CREATE TABLE admission (
 
 DESCRIBE admission ;
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/admission.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/admission.csv'
 INTO TABLE admission
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -86,7 +116,7 @@ CREATE TABLE billing (
 
 DESCRIBE billing;
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/billing.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/billing.csv'
 INTO TABLE billing
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -116,7 +146,7 @@ CREATE TABLE billing_detail (
 
 DESCRIBE billing_detail;
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/billing_detail.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/billing_detail.csv'
 INTO TABLE billing_detail
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -125,13 +155,12 @@ IGNORE 1 ROWS
 (
     billing_detail_id,
     charge_type,
-    reference_id,
+    @reference_id,
     amount,
     bill_id
 )
-SET reference_id = NULLIF(@reference_id, '');
+SET reference_id = NULLIF(TRIM(@reference_id), '');
 
-TRUNCATE TABLE billing_detail;
 
 
 -- patient_insurance table
@@ -146,7 +175,7 @@ CREATE TABLE patient_insurance (
     insurance_provider_id INT
 );
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/patient_insurance.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/patient_insurance.csv'
 INTO TABLE patient_insurance
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -174,7 +203,7 @@ CREATE TABLE patient_diagnostic (
     doctor_id INT
 );
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/patient_diagnostic.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/patient_diagnostic.csv'
 INTO TABLE patient_diagnostic
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -201,7 +230,7 @@ CREATE TABLE prescription (
 );
 
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/prescription.csv'
+LOAD DATA LOCAL INFILE 'YOUR_DATA_FOLDER/prescription.csv'
 INTO TABLE prescription
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -216,20 +245,41 @@ IGNORE 1 ROWS
     drug_id
 );
 
--- BILLING DETAIL TABLE (RECTIFIED NULL VALUES) --
-TRUNCATE TABLE billing_detail;
 
-LOAD DATA LOCAL INFILE 'C:/Users/pluto/Desktop/DATA ANALYSIS/#PROJECT/Hospital_Operations_Analysis/hospital_data/billing_detail.csv'
-INTO TABLE billing_detail
-FIELDS TERMINATED BY ','
-ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS
-(
-    billing_detail_id,
-    charge_type,
-    @reference_id,
-    amount,
-    bill_id
-)
-SET reference_id = NULLIF(TRIM(@reference_id), '');
+
+-- ============================================================
+-- VALIDATE IMPORTED ROW COUNTS
+-- ============================================================
+
+SELECT 'patient' AS table_name, COUNT(*) AS row_count
+FROM patient
+
+UNION ALL
+
+SELECT 'admission', COUNT(*)
+FROM admission
+
+UNION ALL
+
+SELECT 'billing', COUNT(*)
+FROM billing
+
+UNION ALL
+
+SELECT 'billing_detail', COUNT(*)
+FROM billing_detail
+
+UNION ALL
+
+SELECT 'patient_insurance', COUNT(*)
+FROM patient_insurance
+
+UNION ALL
+
+SELECT 'patient_diagnostic', COUNT(*)
+FROM patient_diagnostic
+
+UNION ALL
+
+SELECT 'prescription', COUNT(*)
+FROM prescription;
