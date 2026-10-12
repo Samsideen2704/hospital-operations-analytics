@@ -92,6 +92,21 @@ The dashboard report contains eight pages which are:
 8. Data Quality
 
 
+## Power BI Dashboard Preview
+
+The dashboard contains eight pages covering hospital operations, finance, patient flow, capacity, workforce, diagnostics, pharmacy and data quality.
+
+### Hospital Operations Overview
+
+![Hospital Operations Overview](powerbi/screenshots/01_operations_overview.png)
+
+**Explore all dashboard pages:** [View the dashboard screenshots](powerbi/screenshots/)
+
+**Download the Power BI report:** [Hospital_Operations_Dashboard.pbix](powerbi/Hospital_Operations_Dashboard.pbix)
+
+*Note: An interactive public Power BI link is not currently available because public embedding is disabled for this account.*
+
+
 ## Project Structure
 
 The repository will contain the SQL scripts, Power BI report, dashboard screenshots, dataset information and supporting documentation.
