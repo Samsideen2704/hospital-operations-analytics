@@ -25,7 +25,7 @@ View the images in the [`screenshots`](screenshots/) folder.
 
 The Power BI report file is available in this folder:
 
-Hospital_Operations_Dashboard.pbix
+[`Hospital_Operations_Dashboard.pbix`](Hospital_Operations_Dashboard.pbix)
 
 Download the file and open it in Power BI Desktop to explore the report. An interactive public link is not currently available because public embedding is disabled for this account.
 
