@@ -70,6 +70,34 @@ The billing header totals were used for financial KPIs because the detailed reco
 
 The dataset is synthetic and does not represent real patient records. Findings describe the supplied dataset and should not be treated as evidence of actual hospital performance.
 
+## Business Recommendations
+
+The analysis highlighted a few areas where the hospital could improve its monitoring and data management.
+
+#### **1. Take a closer look at the billing differences**
+
+Almost all bills had totals that did not match the sum of their billing details. Before relying on the individual charge records for financial reporting, I would recommend investigating these differences to understand where they come from and ensure the figures can be trusted.
+
+#### **2. Find out why so many bills are still pending**
+
+Out of 45,000 bills, 22,670 were marked as pending. The next step would be to review these outstanding payments, identify any common reasons for the delays, and make it easier for the finance team to follow up.
+
+#### **3. Keep a closer eye on medicine stock levels**
+
+The analysis identified 44 medicines with low stock. Regular stock reviews and clear reorder thresholds could help the pharmacy team spot shortages earlier and plan replenishment more effectively.
+
+#### **4. Improve the accuracy of patient admission records**
+
+There were 1,630 admissions where the patient's date of birth was later than the admission date. These records should be checked and corrected where necessary. Adding simple validation checks could also help prevent similar errors from entering the system in the future.
+
+#### **5. Use bed occupancy figures alongside admission demand**
+
+The recorded bed occupancy rate was 65.06% across 415 beds. Rather than relying on this figure alone, hospital managers should review occupancy by ward type and compare it with admission patterns before making decisions about bed capacity or staffing.
+
+### **Final note**
+
+These recommendations are based on a synthetic dataset, so they highlight areas worth investigating rather than proving what is happening in a real hospital. Further checks would be needed to understand the causes of the issues and decide which actions would have the greatest impact.
+
 
 ## Power BI Dashboard
 
